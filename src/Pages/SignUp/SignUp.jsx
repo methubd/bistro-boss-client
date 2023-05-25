@@ -1,11 +1,21 @@
+import { useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
+import { AuthContext } from "../../Providers/AuthProvider";
+import { Link } from "react-router-dom";
 
 
 const SignUp = () => {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const {createUser} = useContext(AuthContext);
+
     const onSubmit = data => {
         console.log(data)
+        createUser(data.email, data.password)
+        .then(result => {
+            const loggedUser = result.user;
+            console.log(loggedUser);
+        })
     };
     
 
@@ -71,7 +81,7 @@ const SignUp = () => {
                 
                 </div>
             </form>
-
+                <p><small>Already have an account? <Link to="/login">Login</Link></small></p>
             </div>
         </div>
         </div>
